@@ -20,11 +20,10 @@ class Product
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private Uuid $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
