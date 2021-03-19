@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\OptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,27 +14,29 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Option
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="relatedOption")
      */
-    private $attributes;
+    private Collection $attributes;
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="options")
      */
-    private $products;
+    private Collection $products;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name = '';
 
     public function __construct()
     {
@@ -103,7 +106,7 @@ class Option
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

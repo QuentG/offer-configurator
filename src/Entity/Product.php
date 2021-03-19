@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use App\Entity\Option;
-use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -22,31 +20,37 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"offer.read"})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"offer.read"})
      */
     private string $name = '';
 
     /**
      * @ORM\Column(type="text", length=255)
+     * @Groups({"offer.read"})
      */
     private string $description = '';
 
     /**
      * @ORM\Column(type="bigint")
+     * @Groups({"offer.read"})
      */
     private string $stock = '';
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"offer.read"})
      */
     private string $price = '';
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"offer.read"})
      */
     private string $brand = '';
 
@@ -63,7 +67,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private string $type = '';
 
     /**
      * @ORM\Column(type="uuid", nullable=true)
@@ -76,7 +80,7 @@ class Product
         $this->options = new ArrayCollection();
     }
 
-    public function getId(): ?Uuid
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -195,7 +199,7 @@ class Product
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }

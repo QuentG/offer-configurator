@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class BaseController extends AbstractController
 {
@@ -16,6 +17,11 @@ abstract class BaseController extends AbstractController
      * @var EntityManagerInterface
      */
     protected $em;
+
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
 
     /**
      * @internal
@@ -29,12 +35,24 @@ abstract class BaseController extends AbstractController
         return $previous;
     }
 
+    /**
+     * @internal
+     * @required
+     */
+    public function setSerializer(SerializerInterface $serializer): ?SerializerInterface
+    {
+        $previous = $this->serializer;
+        $this->serializer = $serializer;
+
+        return $previous;
+    }
+
     protected function respond(string $message, $data = [], int $httpCode = JsonResponse::HTTP_OK, string $status = self::SUCCESS): JsonResponse
     {
         return new JsonResponse([
             'status' => $status,
             'message' => $message,
-            'data' => $data,
+            'data' => $data
         ], $httpCode);
     }
 
