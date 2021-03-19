@@ -70,9 +70,14 @@ class Product
     private string $type = '';
 
     /**
-     * @ORM\Column(type="uuid", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $parentId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $entityId;
 
     public function __construct()
     {
@@ -219,6 +224,18 @@ class Product
     public function setParentId($parentId): self
     {
         $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    public function getEntityId(): ?int
+    {
+        return $this->entityId;
+    }
+
+    public function setEntityId(int $entityId): self
+    {
+        $this->entityId = $entityId;
 
         return $this;
     }

@@ -49,6 +49,7 @@ class AppFixtures extends Fixture
             ->setPrice(79.99)
             ->setBrand('IKEA')
             ->setType('configurable')
+            ->setEntityId('4006381333938')
             ;
 
 
@@ -94,7 +95,8 @@ class AppFixtures extends Fixture
                     ->setPrice($product->getPrice() + $attribute->getPrice())
                     ->setBrand($product->getBrand())
                     ->setType('simple')
-                    ->setParentId($product->getId())
+                    ->setEntityId($this->faker->ean13)
+                    ->setParentId($product->getEntityId())
                     ;
                 $manager->persist($variant);
             }
