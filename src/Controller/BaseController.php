@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class BaseController extends AbstractController
 {
-    protected const SUCCESS = 'success';
-    protected const ERROR = 'error';
+    public const SUCCESS = 'success';
+    public const ERROR = 'error';
 
     /**
      * @var EntityManagerInterface

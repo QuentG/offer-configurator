@@ -20,3 +20,7 @@ services:
     App\EventSubscriber\TimestampableEntitySubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
