@@ -2,49 +2,55 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\OfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
  * @ORM\Entity(repositoryClass=OfferRepository::class)
  */
 class Offer
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      */
-    private $id;
+    private Uuid $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $price;
+    private string $price = '';
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="offers")
      */
-    private $products;
+    private Collection $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -56,7 +62,7 @@ class Offer
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): string
     {
         return $this->price;
     }
