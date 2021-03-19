@@ -41,9 +41,9 @@ class Offer
     private Collection $products;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default": "0"})
      */
-    private $isActive;
+    private bool $isActive = false;
 
     public function __construct()
     {
@@ -103,7 +103,7 @@ class Offer
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function getIsActive(): bool
     {
         return $this->isActive;
     }
