@@ -8,6 +8,7 @@ use Faker\Generator;
 use App\Entity\Option;
 use App\Entity\Product;
 use App\Entity\Attribute;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -39,7 +40,6 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
-
         $product = new Product();
         $product->setName('BESTÅ')
             ->setDescription('
@@ -49,9 +49,8 @@ class AppFixtures extends Fixture
             ->setPrice(79.99)
             ->setBrand('IKEA')
             ->setType('configurable')
-            ->setEntityId('4006381333938')
+            ->setEntityId(random_int(100, 999))
             ;
-
 
         $option = new Option();
         $option->setName('Size');
@@ -65,7 +64,6 @@ class AppFixtures extends Fixture
         }
         $manager->persist($option);
         $product->addOption($option);
-
 
 
         $option = new Option();
@@ -83,9 +81,6 @@ class AppFixtures extends Fixture
 
         $manager->persist($product);
 
-
-        // Create variant foreach $product children
-        // TODO: Handle all attributes combinations
         foreach ($product->getOptions() as $option) {
             foreach ($option->getAttributes() as $attribute) {
                 $variant = new Product();
@@ -95,7 +90,7 @@ class AppFixtures extends Fixture
                     ->setPrice($product->getPrice() + $attribute->getPrice())
                     ->setBrand($product->getBrand())
                     ->setType('simple')
-                    ->setEntityId($this->faker->ean13)
+                    ->setEntityId(random_int(100, 999))
                     ->setParentId($product->getEntityId())
                     ;
                 $manager->persist($variant);
