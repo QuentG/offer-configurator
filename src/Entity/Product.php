@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\TimestampableTrait;
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Option;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use App\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
@@ -41,7 +42,7 @@ class Product
     private string $stock = '';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float")
      */
     private string $price = '';
 
@@ -55,9 +56,25 @@ class Product
      */
     private Collection $offers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="products")
+     */
+    private Collection $options;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="uuid", nullable=true)
+     */
+    private $parentId;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -148,6 +165,57 @@ class Product
         if ($this->offers->removeElement($offer)) {
             $offer->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Option[]
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Option $option): self
+    {
+        if (!$this->options->contains($option)) {
+            $this->options[] = $option;
+            $option->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Option $option): self
+    {
+        if ($this->options->removeElement($option)) {
+            $option->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId($parentId): self
+    {
+        $this->parentId = $parentId;
 
         return $this;
     }
