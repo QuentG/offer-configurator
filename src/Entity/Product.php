@@ -16,6 +16,9 @@ class Product
 {
     use TimestampableTrait;
 
+    const PARENT_TYPE = 'configurable';
+    const CHILD_TYPE = 'simple';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
