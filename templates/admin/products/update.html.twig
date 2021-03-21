@@ -47,7 +47,7 @@
                     <td>{{ variant.name }}</td>
                     <td>{{ variant.stock }}</td>
                     <td>
-                        <a href="#" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('admin.products.delete', { 'id' : variant.id }) }}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}

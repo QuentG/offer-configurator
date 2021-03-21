@@ -18,4 +18,19 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+    public function removeVariants(Product $product) 
+    {
+        $query = $this->createQueryBuilder('p')
+            ->delete()
+            ->andWhere('p.parentId > :parentId')
+            ->andWhere('p.type > :productType')
+            ->setParameters([
+                'parentId' => $product->getEntityId(),
+                'productType' => Product::CHILD_TYPE
+            ])
+            ->getQuery();
+
+        return $query->execute();
+    }
 }

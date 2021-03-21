@@ -77,4 +77,17 @@ class ProductController extends BaseController
             'variants' => $this->productRepository->findBy(['parentId' => $product->getEntityId()])
         ]);
     }
+
+    #[Route('/{id}/delete', name: 'delete')]
+    public function delete(Product $product)
+    {
+        if ($product->getType() === Product::PARENT_TYPE) {
+            $this->productRepository->removeVariants($product);
+        }
+
+        $this->em->remove($product);
+        $this->em->flush();
+
+        return $this->redirectToRoute('admin.products.index');
+    }
 }

@@ -22,6 +22,7 @@
                     <td>{{ configurable.stock }}</td>
                     <td>
                         <a href="{{ path('admin.products.update', { 'id' : configurable.id}) }}" class="btn btn-info">Infos</a>
+                        <a href="{{ path('admin.products.delete', { 'id' : configurable.id}) }}" class="btn btn-info">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
