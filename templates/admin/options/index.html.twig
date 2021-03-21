@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="text-center">Options</h2>
+        <div class="d-flex justify-content-center my-5">
+            <a href="{{ path('admin.options.create') }}" class="btn btn-primary">Créer une nouvelle option</a>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Attributes</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for option in options %}
+                <tr>
+                    <td>{{ option.id }}</td>
+                    <td>{{ option.name }}</td>
+                    <td>
+                        <ul>
+                        {% for attribute in option.attributes %}
+                            <li>{{ attribute.label }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="{{ path('admin.options.update', { 'id' : option.id}) }}" class="btn btn-info">Voir</a>
+                        <a href="#" class="btn btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

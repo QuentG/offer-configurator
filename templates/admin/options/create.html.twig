@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Ajout une nouvelle option</h2>
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Sauvegarder</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
