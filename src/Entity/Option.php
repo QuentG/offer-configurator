@@ -7,6 +7,7 @@ use App\Repository\OptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OptionRepository::class)
@@ -20,11 +21,13 @@ class Option
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"offer.read"})
      */
     private ?int $id = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="relatedOption")
+     * @Groups({"offer.read"})
      */
     private Collection $attributes;
 
@@ -35,6 +38,7 @@ class Option
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"offer.read"})
      */
     private string $name = '';
 

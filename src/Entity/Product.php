@@ -16,8 +16,8 @@ class Product
 {
     use TimestampableTrait;
 
-    const PARENT_TYPE = 'configurable';
-    const CHILD_TYPE = 'simple';
+    public const PARENT_TYPE = 'configurable';
+    public const CHILD_TYPE = 'simple';
 
     /**
      * @ORM\Id
@@ -49,7 +49,7 @@ class Product
      * @ORM\Column(type="float")
      * @Groups({"offer.read"})
      */
-    private string $price = '';
+    private float $price = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -59,11 +59,13 @@ class Product
 
     /**
      * @ORM\ManyToMany(targetEntity=Offer::class, mappedBy="products")
+     * @Groups({"offer.read"})
      */
     private Collection $offers;
 
     /**
      * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="products")
+     * @Groups({"offer.read"})
      */
     private Collection $options;
 
@@ -75,12 +77,12 @@ class Product
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $parentId;
+    private ?int $parentId = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $entityId;
+    private ?int $entityId = null;
 
     public function __construct()
     {
@@ -129,12 +131,12 @@ class Product
         return $this;
     }
 
-    public function getPrice(): string
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 

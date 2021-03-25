@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\BaseController;
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,26 +19,41 @@ class ProductController extends BaseController
     #[Route('', name: 'all')]
     public function all(): JsonResponse
     {
+        $simpleProducts = $this->productRepository->findBy([
+            'parentId' => null,
+            'type' => Product::PARENT_TYPE
+        ]);
+
         $products = $this->serializer->serialize(
-            $this->productRepository->findBy(['parentId' => null]),
+            $simpleProducts,
             'json',
             ['groups' => 'offer.read']
         );
 
-        return $this->respond('all_products', $products);
+        return $this->respond('all_products', json_decode($products));
     }
 
-//    #[Route('/{id}', name: 'index')]
-//    public function index(int $id): JsonResponse
-//    {
-//        $product = $this->productRepository->find($id);
-//
-//        $products = $this->serializer->serialize(
-//            $this->productRepository->getChildren($id),
-//            'json',
-//            ['groups' => 'offer.read']
-//        );
-//
-//        return $this->respond(sprintf('product_%s', $id), $products);
-//    }
+    #[Route('/{id}', name: 'index')]
+    public function index(Product $product): JsonResponse
+    {
+        $serializedProduct = $this->serializer->serialize(
+            $product,
+            'json',
+            ['groups' => 'offer.read']
+        );
+
+        return $this->respond(sprintf('product_%s', $product->getId()), json_decode($serializedProduct));
+    }
+
+    #[Route('/{id}/childrens', name: 'childrens')]
+    public function childrens(Product $product): JsonResponse
+    {
+        $products = $this->serializer->serialize(
+            $this->productRepository->getChildrens($product),
+            'json',
+            ['groups' => 'offer.read']
+        );
+
+        return $this->respond(sprintf('product_%s', $product->getId()), json_decode($products));
+    }
 }

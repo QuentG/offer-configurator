@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\AttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AttributeRepository::class)
@@ -17,11 +18,13 @@ class Attribute
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"offer.read"})
      */
     private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"offer.read"})
      */
     private string $label = '';
 
@@ -32,6 +35,7 @@ class Attribute
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"offer.read"})
      */
     private float $price = 0;
 

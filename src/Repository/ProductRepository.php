@@ -19,7 +19,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function removeVariants(Product $product) 
+    public function removeVariants(Product $product): mixed
     {
         $query = $this->createQueryBuilder('p')
             ->delete()
@@ -32,5 +32,19 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery();
 
         return $query->execute();
+    }
+
+    public function getChildrens(Product $product): mixed
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.parentId = :id')
+            ->andWhere('p.type = :type')
+            ->setParameters([
+                'id' => $product->getEntityId(),
+                'type' => Product::CHILD_TYPE
+            ])
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

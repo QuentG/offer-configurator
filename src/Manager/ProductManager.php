@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Product;
-use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProductManager 
@@ -12,7 +11,7 @@ class ProductManager
         private EntityManagerInterface $em
     ) {}
     
-    public function createVariants(Product $product)
+    public function createVariants(Product $product): void
     {
         foreach ($product->getOptions() as $option) {
             foreach ($option->getAttributes() as $attribute) {
@@ -25,7 +24,7 @@ class ProductManager
                     ->setType('simple')
                     ->setEntityId(random_int(100, 999))
                     ->setParentId($product->getEntityId())
-                    ;
+                ;
                 $this->em->persist($variant);
             }
         }
