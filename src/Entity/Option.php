@@ -32,7 +32,7 @@ class Option
     private Collection $attributes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="options")
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="options", cascade={"persist"})
      */
     private Collection $products;
 

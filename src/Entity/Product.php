@@ -64,7 +64,7 @@ class Product
     private Collection $offers;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="products")
+     * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="products", cascade={"persist"})
      * @Groups({"offer.read"})
      */
     private Collection $options;
@@ -83,6 +83,11 @@ class Product
      * @ORM\Column(type="integer")
      */
     private ?int $entityId = null;
+
+    /**
+     * @ORM\Column(type="simple_array", nullable=true)
+     */
+    private $optionSelected = [];
 
     public function __construct()
     {
@@ -252,5 +257,17 @@ class Product
             $discounts[] = $offer->getPrice();
         }
         return round(array_sum($discounts), 2);
+    }
+
+    public function getOptionSelected(): ?array
+    {
+        return $this->optionSelected;
+    }
+
+    public function setOptionSelected(?array $optionSelected): self
+    {
+        $this->optionSelected = $optionSelected;
+
+        return $this;
     }
 }

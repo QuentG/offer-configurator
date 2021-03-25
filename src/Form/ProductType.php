@@ -26,6 +26,7 @@ class ProductType extends AbstractType
                 'class' => Option::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'by_reference' => false
             ])
         ;
     }
