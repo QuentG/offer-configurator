@@ -23,8 +23,8 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->delete()
-            ->andWhere('p.parentId > :parentId')
-            ->andWhere('p.type > :productType')
+            ->andWhere('p.parentId = :parentId')
+            ->andWhere('p.type = :productType')
             ->setParameters([
                 'parentId' => $product->getEntityId(),
                 'productType' => Product::CHILD_TYPE
