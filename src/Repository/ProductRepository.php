@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Option;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,14 +35,16 @@ class ProductRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function getChildrens(Product $product): mixed
+    public function getChildrens(Product $product, array $options): mixed
     {
         return $this->createQueryBuilder('p')
             ->where('p.parentId = :id')
             ->andWhere('p.type = :type')
+            ->andWhere('p.optionSelected IN (:options)')
             ->setParameters([
                 'id' => $product->getEntityId(),
-                'type' => Product::CHILD_TYPE
+                'type' => Product::CHILD_TYPE,
+                'options' => $options
             ])
             ->getQuery()
             ->getResult()

@@ -87,7 +87,7 @@ class Product
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    private $optionSelected = [];
+    private array $optionSelected = [];
 
     public function __construct()
     {
@@ -226,7 +226,7 @@ class Product
         return $this;
     }
 
-    public function getParentId()
+    public function getParentId(): ?int
     {
         return $this->parentId;
     }
@@ -250,21 +250,22 @@ class Product
         return $this;
     }
 
-    public function getFinalPrice()
+    public function getFinalPrice(): float
     {
         $discounts = [];
         foreach($this->offers as $offer) {
             $discounts[] = $offer->getPrice();
         }
+
         return round(array_sum($discounts), 2);
     }
 
-    public function getOptionSelected(): ?array
+    public function getOptionSelected(): array
     {
         return $this->optionSelected;
     }
 
-    public function setOptionSelected(?array $optionSelected): self
+    public function setOptionSelected(array $optionSelected): self
     {
         $this->optionSelected = $optionSelected;
 

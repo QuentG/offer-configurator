@@ -45,11 +45,11 @@ class ProductController extends BaseController
         return $this->respond(sprintf('product_%s', $product->getId()), json_decode($serializedProduct));
     }
 
-    #[Route('/{id}/childrens', name: 'childrens')]
-    public function childrens(Product $product): JsonResponse
+    #[Route('/{id}/childrens/{options}', name: 'childrens')]
+    public function childrens(Product $product, string $options): JsonResponse
     {
         $products = $this->serializer->serialize(
-            $this->productRepository->getChildrens($product),
+            $this->productRepository->getChildrens($product, json_decode($options)),
             'json',
             ['groups' => 'offer.read']
         );

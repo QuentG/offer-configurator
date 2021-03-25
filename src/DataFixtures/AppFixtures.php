@@ -92,6 +92,7 @@ class AppFixtures extends Fixture
                     ->setType(Product::CHILD_TYPE)
                     ->setEntityId(random_int(100, 999))
                     ->setParentId($product->getEntityId())
+                    ->setOptionSelected([$attribute->getLabel()])
                 ;
 
                 $manager->persist($variant);

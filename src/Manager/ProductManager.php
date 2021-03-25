@@ -21,7 +21,7 @@ class ProductManager
                     ->setStock($product->getStock())
                     ->setPrice($product->getPrice() + $attribute->getPrice())
                     ->setBrand($product->getBrand())
-                    ->setType('simple')
+                    ->setType(Product::CHILD_TYPE)
                     ->setEntityId(random_int(100, 999))
                     ->setParentId($product->getEntityId())
                 ;
