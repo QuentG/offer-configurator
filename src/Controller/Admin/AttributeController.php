@@ -8,6 +8,7 @@ use App\Controller\BaseController;
 use App\Repository\AttributeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route('/admin/attributes', name: 'admin.attributes.')]
@@ -39,6 +40,25 @@ class AttributeController extends BaseController
         }
 
         return $this->render('admin/attributes/create.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/{id}', name: 'update')]
+    public function update(Option $option, Request $request): RedirectResponse|Response
+    {
+        $form = $this->createForm(OptionType::class, $option);
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+
+            return $this->redirectToRoute('admin.index');
+        }
+
+        return $this->render('admin/options/update.html.twig', [
+            'option' => $option,
             'form' => $form->createView()
         ]);
     }

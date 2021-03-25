@@ -6,13 +6,13 @@
     <div class="container">
         <h2 class="text-center">Attributs</h2>
         <div class="d-flex justify-content-center my-5">
-            <a href="{{ path('admin.options.create') }}" class="btn btn-primary">Créer un nouvel attribut</a>
+            <a href="{{ path('admin.attributes.create') }}" class="btn btn-primary">Créer un nouvel attribut</a>
         </div>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Label</th>
                     <th scope="col">Option</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -21,9 +21,9 @@
                 {% for attribute in attributes %}
                 <tr>
                     <td>{{ attribute.id }}</td>
-                    <td>{{ attribute.name }}</td>
+                    <td>{{ attribute.label }}</td>
                     <td>
-                        {{ attribute.option.name }}
+                        {{ attribute.option.name ?? 'None' }}
                     </td>
                     <td>
                         <a href="#" class="btn btn-info">Voir</a>

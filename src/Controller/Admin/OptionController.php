@@ -29,7 +29,6 @@ class OptionController extends BaseController
     #[Route('/create', name: 'create')]
     public function create(Request $request): RedirectResponse|Response
     {
-        // FIXME: Create new OptionType instance with inside possibility to handle multiple AttributeType forms
         $option = new Option();
         $form = $this->createForm(OptionAttributesType::class, $option)
             ->handleRequest($request);

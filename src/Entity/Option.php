@@ -26,7 +26,7 @@ class Option
     private ?int $id = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="relatedOption")
+     * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="option")
      * @Groups({"offer.read"})
      */
     private Collection $attributes;
@@ -65,7 +65,7 @@ class Option
     {
         if (!$this->attributes->contains($attribute)) {
             $this->attributes[] = $attribute;
-            $attribute->setRelatedOption($this);
+            $attribute->setOption($this);
         }
 
         return $this;
@@ -75,8 +75,8 @@ class Option
     {
         if ($this->attributes->removeElement($attribute)) {
             // set the owning side to null (unless already changed)
-            if ($attribute->getRelatedOption() === $this) {
-                $attribute->setRelatedOption(null);
+            if ($attribute->getOption() === $this) {
+                $attribute->setOption(null);
             }
         }
 

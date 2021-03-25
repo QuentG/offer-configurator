@@ -31,7 +31,7 @@ class Attribute
     /**
      * @ORM\ManyToOne(targetEntity=Option::class, inversedBy="attributes", cascade={"persist"})
      */
-    private ?Option $relatedOption;
+    private ?Option $option;
 
     /**
      * @ORM\Column(type="float")
@@ -56,14 +56,14 @@ class Attribute
         return $this;
     }
 
-    public function getRelatedOption(): ?Option
+    public function getOption(): ?Option
     {
-        return $this->relatedOption;
+        return $this->option;
     }
 
-    public function setRelatedOption(?Option $relatedOption): self
+    public function setoption(?Option $option): self
     {
-        $this->relatedOption = $relatedOption;
+        $this->option = $option;
 
         return $this;
     }
