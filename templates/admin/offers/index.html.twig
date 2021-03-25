@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="text-center">Offres</h2>
+        <div class="d-flex justify-content-center my-5">
+            <a href="{{ path('admin.offers.create') }}" class="btn btn-primary">Créer une nouvelle offre</a>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Remise (€)</th>
+                    <th scope="col">Produits</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in offers %}
+                <tr>
+                    <td>{{ offer.id }}</td>
+                    <td>{{ offer.name }}</td>
+                    <td>{{ offer.price }}</td>
+                    <td>
+                        <ul>
+                        {% for product in offer.products %}
+                            <li>{{ product.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ (offer.isActive) ? 'Oui' : 'Non' }}</td>
+                    <td>
+                        <a href="{{ path('admin.offers.update', {'id' : offer.id}) }}" class="btn btn-info">Voir</a>
+                        <a href="#" class="btn btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

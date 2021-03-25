@@ -62,4 +62,13 @@ class OptionController extends BaseController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/{id}/delete', name: 'delete')]
+    public function delete(Option $option): RedirectResponse
+    {
+        $this->em->remove($option);
+        $this->em->flush();
+
+        return $this->redirectToRoute('admin.options.index');
+    }
 }

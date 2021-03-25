@@ -45,9 +45,9 @@ class AttributeController extends BaseController
     }
 
     #[Route('/{id}', name: 'update')]
-    public function update(Option $option, Request $request): RedirectResponse|Response
+    public function update(Attribute $attribute, Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(OptionType::class, $option);
+        $form = $this->createForm(AttributeType::class, $attribute);
         
         $form->handleRequest($request);
 
@@ -57,9 +57,18 @@ class AttributeController extends BaseController
             return $this->redirectToRoute('admin.index');
         }
 
-        return $this->render('admin/options/update.html.twig', [
-            'option' => $option,
+        return $this->render('admin/attributes/update.html.twig', [
+            'attribute' => $attribute,
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/{id}/delete', name: 'delete')]
+    public function delete(Attribute $attribute): RedirectResponse
+    {
+        $this->em->remove($attribute);
+        $this->em->flush();
+
+        return $this->redirectToRoute('admin.attributes.index');
     }
 }

@@ -18,13 +18,13 @@ class Offer
 {
     use TimestampableTrait;
 
-    /**
+   /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"offer.read"})
      */
-    private Uuid $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,10 +33,10 @@ class Offer
     private string $name = '';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float")
      * @Groups({"offer.read"})
      */
-    private string $price = '';
+    private float $price = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="offers")
@@ -53,7 +53,7 @@ class Offer
         $this->products = new ArrayCollection();
     }
 
-    public function getId(): ?Uuid
+    public function getId(): ?int
     {
         return $this->id;
     }

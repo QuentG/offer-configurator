@@ -26,8 +26,8 @@
                         {{ attribute.option.name ?? 'None' }}
                     </td>
                     <td>
-                        <a href="#" class="btn btn-info">Voir</a>
-                        <a href="#" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('admin.attributes.update', {'id': attribute.id}) }}" class="btn btn-info">Voir</a>
+                        <a href="{{ path('admin.attributes.delete', {'id': attribute.id}) }}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}

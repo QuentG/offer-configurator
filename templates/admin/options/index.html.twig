@@ -31,7 +31,7 @@
                     </td>
                     <td>
                         <a href="{{ path('admin.options.update', { 'id' : option.id}) }}" class="btn btn-info">Voir</a>
-                        <a href="#" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('admin.options.delete', {'id' : option.id}) }}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}

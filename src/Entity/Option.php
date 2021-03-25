@@ -26,7 +26,7 @@ class Option
     private ?int $id = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="option")
+     * @ORM\OneToMany(targetEntity=Attribute::class, mappedBy="option", cascade={"remove"})
      * @Groups({"offer.read"})
      */
     private Collection $attributes;
