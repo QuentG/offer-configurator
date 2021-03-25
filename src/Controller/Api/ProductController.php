@@ -24,30 +24,20 @@ class ProductController extends BaseController
             ['groups' => 'offer.read']
         );
 
-        return $this->respond('all_products', json_decode($products));
+        return $this->respond('all_products', $products);
     }
 
-    #[Route('/{id}', name: 'index')]
-    public function index(int $id): JsonResponse
-    {
-        $products = $this->serializer->serialize(
-            $this->productRepository->find($id),
-            'json',
-            ['groups' => 'offer.read']
-        );
-
-        return $this->respond(sprintf('product_%s', $id), json_decode($products));
-    }
-
-    #[Route('/{id}', name: 'index.options')]
-    public function getWithOptions(int $id): JsonResponse
-    {
-        $products = $this->serializer->serialize(
-            $this->productRepository->find($id),
-            'json',
-            ['groups' => 'offer.read']
-        );
-
-        return $this->respond(sprintf('product_%s', $id), json_decode($products));
-    }
+//    #[Route('/{id}', name: 'index')]
+//    public function index(int $id): JsonResponse
+//    {
+//        $product = $this->productRepository->find($id);
+//
+//        $products = $this->serializer->serialize(
+//            $this->productRepository->getChildren($id),
+//            'json',
+//            ['groups' => 'offer.read']
+//        );
+//
+//        return $this->respond(sprintf('product_%s', $id), $products);
+//    }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Attribute;
 use App\Entity\Option;
-use App\Form\AttributeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class OptionAttributesType extends AbstractType
 {
@@ -16,23 +16,17 @@ class OptionAttributesType extends AbstractType
      * Used to create new option. Then user have to create each attributes related to this option.
      * (We can allow him to choose attributes already existing but it makes no sense right ?)
      **/
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class)
-            ->add('attributes', CollectionType::class, [
-                'entry_type' => new AttributeType(),
-                'allow_add' => true,
-                'prototype' => true,
-                'prototype_data' => 'New attribute',
-            ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Option::class,
+            'data_class' => Option::class
         ]);
     }
 }

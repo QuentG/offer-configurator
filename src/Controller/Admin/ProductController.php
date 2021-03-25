@@ -5,9 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Manager\ProductManager;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use App\Controller\BaseController;
-use App\Repository\OptionRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,18 +22,17 @@ class ProductController extends BaseController
     ) {}
 
     #[Route('', name: 'index')]
-    public function index()
+    public function index(): Response
     {
         $configurables = $this->productRepository->findBy(['type' => Product::PARENT_TYPE]);
         return $this->render('admin/products/index.html.twig', compact('configurables'));
     }
 
     #[Route('/create', name: 'create')]
-    public function create(Request $request)
+    public function create(Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(ProductType::class, new Product());
-
-        $form->handleRequest($request);
+        $form = $this->createForm(ProductType::class, new Product())
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
@@ -55,17 +54,12 @@ class ProductController extends BaseController
     }
 
     #[Route('/{id}', name: 'update')]
-    public function update(Product $product, Request $request)
+    public function update(Product $product, Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(ProductType::class, $product);
-
-        $form->handleRequest($request);
+        $form = $this->createForm(ProductType::class, $product)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product = $form->getData();
-
-            $this->em->persist($product);
-
             $this->em->flush();
 
             return $this->redirectToRoute('admin.index');
@@ -79,7 +73,7 @@ class ProductController extends BaseController
     }
 
     #[Route('/{id}/delete', name: 'delete')]
-    public function delete(Product $product)
+    public function delete(Product $product): RedirectResponse
     {
         if ($product->getType() === Product::PARENT_TYPE) {
             $this->productRepository->removeVariants($product);

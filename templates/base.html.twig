@@ -10,7 +10,9 @@
         {% block javascripts %}{% endblock %}
     </head>
     <body>
-        {% include '_includes/header.html.twig' %}
+        {% if app.user %}
+            {% include '_includes/header.html.twig' %}
+        {% endif %}
         <div class="container py-5">
             {% block body %}{% endblock %}
         </div>

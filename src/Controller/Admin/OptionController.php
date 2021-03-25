@@ -7,7 +7,9 @@ use App\Form\OptionType;
 use App\Controller\BaseController;
 use App\Form\OptionAttributesType;
 use App\Repository\OptionRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/options', name: 'admin.options.')]
@@ -18,23 +20,21 @@ class OptionController extends BaseController
     ) {}
 
     #[Route('', name: 'index')]
-    public function index()
+    public function index(): Response
     {
         $options = $this->optionRepository->findAll();
         return $this->render('admin/options/index.html.twig', compact('options'));
     }
 
     #[Route('/create', name: 'create')]
-    public function create(Request $request)
+    public function create(Request $request): RedirectResponse|Response
     {
         // FIXME: Create new OptionType instance with inside possibility to handle multiple AttributeType forms
-        $form = $this->createForm(OptionAttributesType::class, new Option());
-
-        $form->handleRequest($request);
+        $option = new Option();
+        $form = $this->createForm(OptionAttributesType::class, $option)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $option = $form->getData();
-
             $this->em->persist($option);
             $this->em->flush();
 
@@ -47,17 +47,12 @@ class OptionController extends BaseController
     }
 
     #[Route('/{id}', name: 'update')]
-    public function update(Option $option, Request $request)
+    public function update(Option $option, Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(OptionType::class, $option);
-
-        $form->handleRequest($request);
+        $form = $this->createForm(OptionType::class, $option)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $option = $form->getData();
-
-            $this->em->persist($option);
-
             $this->em->flush();
 
             return $this->redirectToRoute('admin.index');

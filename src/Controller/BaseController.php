@@ -49,7 +49,7 @@ abstract class BaseController extends AbstractController
 
     protected function respond(string $message, $data = [], int $httpCode = JsonResponse::HTTP_OK, string $status = self::SUCCESS): JsonResponse
     {
-        return new JsonResponse([
+        return $this->json([
             'status' => $status,
             'message' => $message,
             'data' => $data
