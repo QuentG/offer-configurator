@@ -244,4 +244,13 @@ class Product
 
         return $this;
     }
+
+    public function getFinalPrice()
+    {
+        $discounts = [];
+        foreach($this->offers as $offer) {
+            $discounts[] = $offer->getPrice();
+        }
+        return round(array_sum($discounts), 2);
+    }
 }

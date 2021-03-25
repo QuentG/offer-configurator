@@ -37,6 +37,8 @@
                     <th scope="col">EntityID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Prix initial (€)</th>
+                    <th scope="col">Prix remisé (€)</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -46,6 +48,8 @@
                     <td>{{ variant.entityId }}</td>
                     <td>{{ variant.name }}</td>
                     <td>{{ variant.stock }}</td>
+                    <td>{{ variant.price }}</td>
+                    <td>{{ variant.price - variant.finalPrice }}</td>
                     <td>
                         <a href="{{ path('admin.products.delete', { 'id' : variant.id }) }}" class="btn btn-danger">Supprimer</a>
                     </td>

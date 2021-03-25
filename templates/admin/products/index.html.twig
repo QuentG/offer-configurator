@@ -11,6 +11,8 @@
                     <th scope="col">EntityID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Prix initial (€)</th>
+                    <th scope="col">Prix remisé (€)</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -20,6 +22,8 @@
                     <td>{{ configurable.entityId }}</td>
                     <td>{{ configurable.name }}</td>
                     <td>{{ configurable.stock }}</td>
+                    <td>{{ configurable.price }}</td>
+                    <td>{{ configurable.price - configurable.finalPrice }}</td>
                     <td>
                         <a href="{{ path('admin.products.update', { 'id' : configurable.id}) }}" class="btn btn-info">Infos</a>
                         <a href="{{ path('admin.products.delete', { 'id' : configurable.id}) }}" class="btn btn-info">Supprimer</a>
