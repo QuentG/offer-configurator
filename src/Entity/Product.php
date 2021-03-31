@@ -23,19 +23,19 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"offer.read"})
+     * @Groups({"offer.read", "order.read"})
      */
     private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"offer.read"})
+     * @Groups({"offer.read", "order.read"})
      */
     private string $name = '';
 
     /**
      * @ORM\Column(type="text", length=255)
-     * @Groups({"offer.read"})
+     * @Groups({"offer.read", "order.read"})
      */
     private string $description = '';
 
@@ -47,13 +47,13 @@ class Product
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"offer.read"})
+     * @Groups({"offer.read", "order.read"})
      */
     private float $price = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"offer.read"})
+     * @Groups({"offer.read", "order.read"})
      */
     private string $brand = '';
 
@@ -86,13 +86,20 @@ class Product
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
+     * @Groups({"offer.read", "order.read"})
      */
     private array $optionSelected = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="product")
+     */
+    private Collection $orderItems;
 
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->options = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -268,6 +275,34 @@ class Product
     public function setOptionSelected(array $optionSelected): self
     {
         $this->optionSelected = $optionSelected;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderItem[]
+     */
+    public function getOrderItems(): Collection
+    {
+        return $this->orderItems;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): self
+    {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems[] = $orderItem;
+            $orderItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->orderItems->removeElement($orderItem) && $orderItem->getProduct() === $this) {
+            $orderItem->setProduct(null);
+        }
 
         return $this;
     }

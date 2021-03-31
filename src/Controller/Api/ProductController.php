@@ -16,7 +16,7 @@ class ProductController extends BaseController
     ) {
     }
 
-    #[Route('', name: 'all')]
+    #[Route('', name: 'all', methods: ['GET'])]
     public function all(): JsonResponse
     {
         $simpleProducts = $this->productRepository->findBy([
@@ -33,7 +33,7 @@ class ProductController extends BaseController
         return $this->respond('all_products', json_decode($products));
     }
 
-    #[Route('/{id}', name: 'index')]
+    #[Route('/{id}', name: 'index', methods: ['GET'])]
     public function index(Product $product): JsonResponse
     {
         $serializedProduct = $this->serializer->serialize(
@@ -45,7 +45,7 @@ class ProductController extends BaseController
         return $this->respond(sprintf('product_%s', $product->getId()), json_decode($serializedProduct));
     }
 
-    #[Route('/{id}/childrens/{options}', name: 'childrens')]
+    #[Route('/{id}/childrens/{options}', name: 'childrens', methods: ['GET'])]
     public function childrens(Product $product, string $options): JsonResponse
     {
         $products = $this->serializer->serialize(
