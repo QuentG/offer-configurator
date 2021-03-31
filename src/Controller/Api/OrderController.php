@@ -40,14 +40,6 @@ class OrderController extends BaseController
         return $this->respond('cart', $cart);
     }
 
-//    #[Route('/count', name: 'count', methods: ['GET'])]
-//    public function count(): JsonResponse
-//    {
-//        return $this->respond('cart_total_items', [
-//            'total' => $this->orderItemRepository->count([])
-//        ]);
-//    }
-
     #[Route('/add', name: 'add', methods: ['POST'])]
     public function add(Request $request): JsonResponse
     {
