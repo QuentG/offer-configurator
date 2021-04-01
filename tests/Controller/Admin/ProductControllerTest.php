@@ -10,19 +10,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class ProductControllerTest extends ApiTestCase
 {
     protected const DIR_FIXTURES = './tests/Fixtures/';
+    protected const ADMIN_EMAIL = 'admin@gmail.com';
 
-    public function testGetProducts(): void
+    public function testAdminAccess(): void
     {
-        $this->client->request('GET', '/api/products');
-        $this->assertResponseStatusCodeSame(200);
+        $userRepository = $this->loadRepository(UserRepository::class);
+        $admin = $userRepository->findOneBy(['email' => self::ADMIN_EMAIL]);
+
+        $this->client->loginUser($admin);
+
+        $response = $this->client->request('GET', '/admin/products');
+        $this->assertResponseIsSuccessful();
     }
 
-    public function testGetProduct(): void
+    public function testInvalidAdminAccess(): void
     {
-        $productRepository = static::$container->get(ProductRepository::class);
-        $product = $productRepository->getSingleProduct();
-
-        $this->client->request('GET', '/api/products/' . $product->getId());
-        $this->assertResponseStatusCodeSame(200);
+        $response = $this->client->request('GET', '/admin/products');
+        $this->assertResponseStatusCodeSame(302);
     }
 }

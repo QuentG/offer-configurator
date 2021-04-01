@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -17,6 +18,16 @@ class ApiTestCase extends WebTestCase
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
+    }
+
+    public function loginAs(User $user): void
+    {
+        $this->simulateLogin($user);
+    }
+
+    public function loadRepository($repository)
+    {
+        return static::$container->get($repository);
     }
 
     public function jsonRequest(string $method, string $url, ?array $data = null): string
