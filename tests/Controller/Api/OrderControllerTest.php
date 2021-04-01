@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Api;
 
 use App\Controller\BaseController;
+use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
 use App\Tests\ApiTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,5 +28,15 @@ class OrderControllerTest extends ApiTestCase
     {
         $this->client->request(Request::METHOD_GET, '/api/cart');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testRemoveProductInCart(): void
+    {
+        $orderItemRepository = static::$container->get(OrderItemRepository::class);
+        $firstItem = $orderItemRepository->findAll()[0]->getProduct();
+
+        $response = $this->jsonRequest(Request::METHOD_DELETE, "/cart/delete/" . $firstItem->getId());
+
+        $this->assertJsonEqualsToJson($response, BaseController::SUCCESS, 'item_removed');
     }
 }
