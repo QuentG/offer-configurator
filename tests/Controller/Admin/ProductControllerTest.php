@@ -4,12 +4,11 @@ namespace App\Tests\Controller\Admin;
 
 use App\Tests\ApiTestCase;
 use App\Repository\UserRepository;
-use App\Repository\ProductRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductControllerTest extends ApiTestCase
 {
-    protected const DIR_FIXTURES = './tests/Fixtures/';
     protected const ADMIN_EMAIL = 'admin@gmail.com';
 
     public function testAdminAccess(): void
@@ -19,13 +18,13 @@ class ProductControllerTest extends ApiTestCase
 
         $this->client->loginUser($admin);
 
-        $response = $this->client->request('GET', '/admin/products');
-        $this->assertResponseIsSuccessful();
+        $this->client->request(Request::METHOD_GET, '/admin/products');
+        self::assertResponseIsSuccessful();
     }
 
     public function testInvalidAdminAccess(): void
     {
-        $response = $this->client->request('GET', '/admin/products');
-        $this->assertResponseStatusCodeSame(302);
+        $this->client->request(Request::METHOD_GET, '/admin/products');
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 }

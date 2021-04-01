@@ -2,15 +2,12 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ApiTestCase extends WebTestCase
 {
-    protected const BASE_TOKEN = 'a54w4de4s51f484v5c1qc';
-    protected const DIR_FIXTURES = './tests/Fixtures/';
+    protected const BASE_URL = "/api";
 
     protected KernelBrowser $client;
 
@@ -20,12 +17,7 @@ class ApiTestCase extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function loginAs(User $user): void
-    {
-        $this->simulateLogin($user);
-    }
-
-    public function loadRepository($repository)
+    public function loadRepository($repository): ?object
     {
         return static::$container->get($repository);
     }
@@ -37,7 +29,7 @@ class ApiTestCase extends WebTestCase
             'HTTP_Accept' => 'application/json'
         ];
 
-        $this->client->request($method, $url, [], [], $headers, $data ? json_encode($data) : null);
+        $this->client->request($method, self::BASE_URL . $url, [], [], $headers, $data ? json_encode($data) : null);
 
         return $this->client->getResponse()->getContent();
     }
@@ -50,14 +42,14 @@ class ApiTestCase extends WebTestCase
             'data' => $data
         ];
 
-        $this->assertJsonStringEqualsJsonString($response, json_encode($json));
+        self::assertJsonStringEqualsJsonString($response, json_encode($json));
     }
 
     protected function assertHasValidationErrors(object $entity, int $number = 0): void
     {
         self::bootKernel();
         $errors = self::$container->get('validator')->validate($entity);
-        $this->assertCount($number, $errors);
-        self::tearDown(); // To handle multiple asserts in a row
+        self::assertCount($number, $errors);
+        $this->tearDown(); // To handle multiple asserts in a row
     }
 }

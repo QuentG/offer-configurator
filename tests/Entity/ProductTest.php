@@ -4,7 +4,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\Product;
 use App\Tests\ApiTestCase;
-use PHPUnit\Framework\TestCase;
 
 class ProductTest extends ApiTestCase
 {

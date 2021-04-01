@@ -3,15 +3,16 @@
 namespace App\Tests\Controller\Api;
 
 use App\Tests\ApiTestCase;
-use PHPUnit\Framework\TestCase;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductControllerTest extends ApiTestCase
 {
     public function testProductsAll(): void
     {
-        $this->client->request('GET', '/api/products');
-        $this->assertResponseStatusCodeSame(200);
+        $this->client->request(Request::METHOD_GET, '/api/products');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     public function testProductsIndex(): void
@@ -19,8 +20,8 @@ class ProductControllerTest extends ApiTestCase
         $productRepository = static::$container->get(ProductRepository::class);
         $product = $productRepository->getSingleProduct();
 
-        $this->client->request('GET', '/api/products/' . $product->getId());
+        $this->client->request(Request::METHOD_GET, '/api/products/' . $product->getId());
         // Check response code
-        $this->assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }
