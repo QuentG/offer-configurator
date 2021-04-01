@@ -10,12 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrderControllerTest extends ApiTestCase
 {
-    public function testGetCart(): void
-    {
-        $this->client->request(Request::METHOD_GET, '/api/cart');
-        self::assertResponseStatusCodeSame(Response::HTTP_OK);
-    }
-
     public function testAddProduct(): void
     {
         $productRepository = static::$container->get(ProductRepository::class);
@@ -27,5 +21,11 @@ class OrderControllerTest extends ApiTestCase
         ]);
 
         $this->assertJsonEqualsToJson($response, BaseController::SUCCESS, 'cart_updated');
+    }
+
+    public function testGetCart(): void
+    {
+        $this->client->request(Request::METHOD_GET, '/api/cart');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }
