@@ -20,6 +20,6 @@ class ProductControllerTest extends ApiTestCase
         $product = $productRepository->getSingleProduct();
 
         $this->client->request('GET', '/api/products/' . $product->getId());
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(404);
     }
 }
